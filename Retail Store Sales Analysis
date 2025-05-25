@@ -113,23 +113,23 @@ We Explored the Data to answer Questions such as;
 ### Data Analysis
 Below are some SQL code worked with
 ```
-                                       -----(DATA EXPLORATION AND ANALYSIS)-----
+                   -----(DATA EXPLORATION AND ANALYSIS)-----
 
  -----Sales Trend----
 WITH Monthlytrend AS
 	( 
 	SELECT 
-	   Region,
+	        Region,
 		YEAR(saledate) AS year,
 		Month(SaleDate) AS month_Num,
 		FORMAT(SaleDate, 'MMM') AS month,
 		ROUND(SUM(Quantity), 2)  AS sales_Amount
 	FROM Sales_1
     GROUP BY 
-		Region,
+	Region,
         YEAR(saledate),
-	    Month(SaleDate),
-	    FORMAT(SaleDate, 'MMM')
+	Month(SaleDate),
+	FORMAT(SaleDate, 'MMM')
   )
 		SELECT 
 			  Region,
