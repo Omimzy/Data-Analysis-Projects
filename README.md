@@ -125,39 +125,43 @@ WITH Monthlytrend AS
 		FORMAT(SaleDate, 'MMM') AS month,
 		ROUND(SUM(Quantity), 2)  AS sales_Amount
 	FROM Sales_1
-	                         GROUP BY 
-									 Region,
-                                      YEAR(saledate),
-	                               	  Month(SaleDate),
-									  FORMAT(SaleDate, 'MMM')
+    GROUP BY 
+		Region,
+        YEAR(saledate),
+	    Month(SaleDate),
+	    FORMAT(SaleDate, 'MMM')
   )
 		SELECT 
-								    Region,
-									 year,
-									 month, 
-									 month_num,
-									 sales_amount,
-									 LAG(Sales_amount) OVER(ORDER BY month_num) AS prev_month,
-						     CASE
-							 WHEN 
-									LAG(Sales_amount) OVER(ORDER BY  month_num) IS NULL THEN 0
-							 ELSE ROUND((Sales_amount - LAG(Sales_amount) OVER(ORDER BY month_num)) / LAG(Sales_amount) OVER(ORDER BY month_num) * 100  ,2)
-							 END AS trend
-					FROM 
-					          Monthlytrend;
+			  Region,
+			  year,
+			  month, 
+			  month_num,
+			  sales_amount,
+			  LAG(Sales_amount) OVER(ORDER BY month_num) AS prev_month,						   
+		CASE
+		WHEN 
+			  LAG(Sales_amount) OVER(ORDER BY  month_num) IS NULL THEN 0
+		ELSE 
+		      ROUND((Sales_amount - LAG(Sales_amount) OVER(ORDER BY month_num)) / LAG(Sales_amount) OVER(ORDER BY month_num) * 100  ,2)
+		END AS trend
+		FROM 
+			  Monthlytrend;
  
 
 
  --------TOP SELLING PRODUCT------
 SELECT 
-Region,
-YEAR(SaleDate) AS year,
-FORMAT(SaleDate, 'MMM') AS Month,
-MONTH(Saledate) AS month_Num,
-ProductName,
-ROUND(SUM(Quantity), 2) AS total_Quantity
+	Region,
+	YEAR(SaleDate) AS year,
+	FORMAT(SaleDate, 'MMM') AS Month,
+	MONTH(Saledate) AS month_Num,
+	ProductName,
+	ROUND(SUM(Quantity), 2) AS total_Quantity
 FROM sales_1
-GROUP BY productname, Year(saledate), Format(saledate, 'MMM'),MONTH(Saledate)
+GROUP BY productname, 
+	Year(saledate), 
+	Format(saledate, 'MMM'),
+	MONTH(Saledate)
 Order BY SUM(Quantity) DESC;
 
 
